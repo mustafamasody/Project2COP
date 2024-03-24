@@ -279,6 +279,7 @@ Image* flipImage( Image* src) {
             result->pixels[src->header.height - i - 1][j] = temp;
         }
     }
+    return result;
 }
 
 Image* onlyRed( Image* src) {
