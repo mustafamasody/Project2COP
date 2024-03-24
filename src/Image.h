@@ -40,12 +40,19 @@ struct Image {
 
 Image* readFile( std::string filename);
 void readData(std::ifstream& file, Image* img);
-void writeData(const Image& image, const std::string& filename);
+void writeData( Image& image,  std::string& filename);
 Image* multiply( Image& image1,  Image& image2);
 Image* screen( Image& image1,  Image& image2);
 Image* subtract( Image& image1,  Image& image2);
 Image* addition( Image& image1,  Image& image2);
 Image* overlay( Image& image1,  Image& image2);
-// void combine(Image*& trackingImage, const std::string& greenLayerPath, const std::string& blueLayerPath) {
+// void combine(Image*& trackingImage,  std::string& greenLayerPath,  std::string& blueLayerPath) {
 Image* combine(Image* trackingImage, std::string& greenLayerPath, std::string& blueLayerPath);
 Image* flipImageVertically(Image* src);
+
+Image* onlyRed( Image* src);
+Image* onlyGreen( Image* src);
+Image* onlyBlue( Image* src);
+Image* addRed( Image* src, int value);
+Image* addGreen( Image* src, int value);
+Image* addBlue( Image* src, int value);

@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Image* deepCopy(const Image* src) {
+Image* deepCopy( Image* src) {
     Image* copy = new Image;
     copy->header = src->header; // Copy header
     copy->pixels = new Pixel*[copy->header.height];
@@ -24,7 +24,7 @@ Image* deepCopy(const Image* src) {
     return copy;
 }
 
-Image* readFile(const std::string filename) {
+Image* readFile( std::string filename) {
     std::ifstream file(filename, std::ios::in | std::ios::binary);
     if (!file.is_open()) {
         std::cout << "Error: File not found" << std::endl;
@@ -63,7 +63,7 @@ void readData(std::ifstream &file, Image* img) {
 }
 
 
-void writeData(const Image& image, const std::string& filename) {
+void writeData( Image& image,  std::string& filename) {
     std::ofstream file(filename, std::ios::out | std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open file for writing - " << filename << std::endl;
@@ -73,13 +73,13 @@ void writeData(const Image& image, const std::string& filename) {
     file.write(&image.header.idLength, sizeof(image.header.idLength));
     file.write(&image.header.colorMapType, sizeof(image.header.colorMapType));
     file.write(&image.header.dataTypeCode, sizeof(image.header.dataTypeCode));
-    file.write(reinterpret_cast<const char*>(&image.header.colorMapOrigin), sizeof(image.header.colorMapOrigin));
-    file.write(reinterpret_cast<const char*>(&image.header.colorMapLength), sizeof(image.header.colorMapLength));
+    file.write(reinterpret_cast< char*>(&image.header.colorMapOrigin), sizeof(image.header.colorMapOrigin));
+    file.write(reinterpret_cast< char*>(&image.header.colorMapLength), sizeof(image.header.colorMapLength));
     file.write(&image.header.colorMapDepth, sizeof(image.header.colorMapDepth));
-    file.write(reinterpret_cast<const char*>(&image.header.xOrigin), sizeof(image.header.xOrigin));
-    file.write(reinterpret_cast<const char*>(&image.header.yOrigin), sizeof(image.header.yOrigin));
-    file.write(reinterpret_cast<const char*>(&image.header.width), sizeof(image.header.width));
-    file.write(reinterpret_cast<const char*>(&image.header.height), sizeof(image.header.height));
+    file.write(reinterpret_cast< char*>(&image.header.xOrigin), sizeof(image.header.xOrigin));
+    file.write(reinterpret_cast< char*>(&image.header.yOrigin), sizeof(image.header.yOrigin));
+    file.write(reinterpret_cast< char*>(&image.header.width), sizeof(image.header.width));
+    file.write(reinterpret_cast< char*>(&image.header.height), sizeof(image.header.height));
     file.write(&image.header.bitsPerPixel, sizeof(image.header.bitsPerPixel));
     file.write(&image.header.imageDescriptor, sizeof(image.header.imageDescriptor));
 
@@ -180,7 +180,7 @@ Image* combine( Image* trackingImage, std::string& greenLayerPath, std::string& 
     // Load the green layer
     Image* greenLayer = readFile(greenLayerPath);
     if (!greenLayer) {
-        std::cerr << "File does not exist: " << greenLayerPath << std::endl;
+        std::cerr << "Invalid argument, file does not exist." << std::endl;
         delete combinedImage; // Clean up the combined image before returning
         return nullptr;
     }
@@ -188,7 +188,7 @@ Image* combine( Image* trackingImage, std::string& greenLayerPath, std::string& 
     // Load the blue layer
     Image* blueLayer = readFile(blueLayerPath);
     if (!blueLayer) {
-        std::cerr << "File does not exist: " << blueLayerPath << std::endl;
+        std::cerr << "Invalid argument, file does not exist." << std::endl;
         delete greenLayer; // Clean up the green layer before returning
         delete combinedImage; // Clean up the combined image before returning
         return nullptr;
@@ -341,4 +341,70 @@ Image* flipImageVertically(Image* src) {
     delete[] tempRow;
 
     return flipped;
+}
+
+Image* onlyRed( Image* src) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            result->pixels[i][j].green = 0;
+            result->pixels[i][j].blue = 0;
+        }
+    }
+    return result;
+}
+
+Image* onlyGreen( Image* src) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            result->pixels[i][j].red = 0;
+            result->pixels[i][j].blue = 0;
+        }
+    }
+    return result;
+}
+
+Image* onlyBlue( Image* src) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            result->pixels[i][j].red = 0;
+            result->pixels[i][j].green = 0;
+        }
+    }
+    return result;
+}
+
+Image* addRed( Image* src, int value) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            int newRed = std::min(255, std::max(0, src->pixels[i][j].red + value));
+            result->pixels[i][j].red = static_cast<unsigned char>(newRed);
+        }
+    }
+    return result;
+}
+
+Image* addGreen( Image* src, int value) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            int newGreen = std::min(255, std::max(0, src->pixels[i][j].green + value));
+            result->pixels[i][j].green = static_cast<unsigned char>(newGreen);
+        }
+    }
+    return result;
+}
+
+Image* addBlue( Image* src, int value) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            int newBlue = std::min(255, std::max(0, src->pixels[i][j].blue + value));
+            result->pixels[i][j].blue = static_cast<unsigned char>(newBlue);
+        }
+    }
+    return result;
 }

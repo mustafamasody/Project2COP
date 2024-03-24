@@ -151,6 +151,58 @@ int main(int argc, char* argv[]) {
             tempResult = flipImageVertically(trackingImage);
             std::cout << "\n======================================\nFinished flip operation.\n======================================\n" << std::endl;
         }
+        else if (operation == "onlyred") {
+            tempResult = onlyRed(trackingImage);
+        }
+        else if (operation == "onlygreen") {
+            tempResult = onlyGreen(trackingImage);
+        }
+        else if (operation == "onlyblue") {
+            tempResult = onlyBlue(trackingImage);
+        }
+        else if (operation == "addred") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            // make sure the argument is a valid integer
+            if (std::stoi(argv[i + 1]) == 0) {
+                std::cerr << "Invalid argument, expected number" << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            int value = std::stoi(argv[++i]);
+            tempResult = addRed(trackingImage, value);
+        }
+        else if (operation == "addgreen") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            if (std::stoi(argv[i + 1]) == 0) {
+                std::cerr << "Invalid argument, expected number" << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            int value = std::stoi(argv[++i]);
+            tempResult = addGreen(trackingImage, value);
+        }
+        else if (operation == "addblue") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            if (std::stoi(argv[i + 1]) == 0) {
+                std::cerr << "Invalid argument, expected number" << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            int value = std::stoi(argv[++i]);
+            tempResult = addBlue(trackingImage, value);
+        }
         else {
             std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;
