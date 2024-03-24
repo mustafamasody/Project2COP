@@ -5,7 +5,10 @@
 #include <algorithm> // For std::min and std::max
 
 int main(int argc, char* argv[]) {
-    if (argc < 3 || std::string(argv[1]) == "--help") {
+    if(argc<3){
+        std::cerr << "Invalid file name." << std::endl;
+    }
+    if (std::string(argv[1]) == "--help") {
         std::cout << "Usage: " << argv[0] << " output_file.tga input_file.tga [operation ...]\n"
                   << "Supported operations: multiply, subtract, ... (list all supported operations here)\n"
                   << "\tEach operation may require additional arguments.\n";
