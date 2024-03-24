@@ -5,14 +5,17 @@
 #include <algorithm> // For std::min and std::max
 
 int main(int argc, char* argv[]) {
-    if(argc<3){
-        std::cerr << "Invalid file name." << std::endl;
+    // if there's no argument, print help
+    if (argc < 2) {
+        std::cout << "Project 2: Image Processing, Fall 2023\n\nUsage:\n    ./project2.out [output] [firstImage] [method] [...]" << std::endl;
+        return 0;
     }
     if (std::string(argv[1]) == "--help") {
-        std::cout << "Usage: " << argv[0] << " output_file.tga input_file.tga [operation ...]\n"
-                  << "Supported operations: multiply, subtract, ... (list all supported operations here)\n"
-                  << "\tEach operation may require additional arguments.\n";
+        std::cout << "Project 2: Image Processing, Fall 2023\n\nUsage:\n    ./project2.out [output] [firstImage] [method] [...]" << std::endl;
         return 0;
+    }
+    if(argc<3){
+        std::cerr << "Invalid file name." << std::endl;
     }
 
     std::string outputFilePath = argv[1];
