@@ -267,16 +267,12 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     return result;
 }
 
-// flip image over the horizontal axis
-Image* flipImage( Image* src) {
-    // horizontal axis
+// flipImage, rotate 180 degrees
+Image* flipImage(Image* src) {
     Image* result = deepCopy(src);
-    for (int i = 0; i < src->header.height / 2; ++i) {
+    for (int i = 0; i < src->header.height; ++i) {
         for (int j = 0; j < src->header.width; ++j) {
-            // Swap pixels across the horizontal axis
-            Pixel temp = result->pixels[i][j];
-            result->pixels[i][j] = result->pixels[src->header.height - i - 1][j];
-            result->pixels[src->header.height - i - 1][j] = temp;
+            result->pixels[i][j] = src->pixels[src->header.height - i - 1][src->header.width - j - 1];
         }
     }
     return result;
