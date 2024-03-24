@@ -140,6 +140,8 @@ Image* subtract( Image& image1,  Image& image2) {
     return result;
 }
 
+
+
 Image* screen(Image& bottomLayer, Image& topLayer) {
     // Ensure the dimensions of both images match
     auto* result = new Image();
@@ -223,59 +225,6 @@ template <typename T>
 T clamp(T value, float low, float high) {
     return (value < low) ? low : (value > high) ? high : value;
 }
-//Image* overlay(Image& baseLayer, Image& blendLayer) {
-//    auto* result = new Image();
-//    result->header = baseLayer.header; // Assuming both images have the same dimensions and format.
-//    result->pixels = new Pixel*[result->header.height];
-//
-//    for (int i = 0; i < result->header.height; ++i) {
-//        result->pixels[i] = new Pixel[result->header.width];
-//        for (int j = 0; j < result->header.width; ++j) {
-//            float baseBlue = baseLayer.pixels[i][j].blue / 255.0f;
-//            float baseGreen = baseLayer.pixels[i][j].green / 255.0f;
-//            float baseRed = baseLayer.pixels[i][j].red / 255.0f;
-//
-//            float blendBlue = blendLayer.pixels[i][j].blue / 255.0f;
-//            float blendGreen = blendLayer.pixels[i][j].green / 255.0f;
-//            float blendRed = blendLayer.pixels[i][j].red / 255.0f;
-//
-//            result->pixels[i][j].blue = (blendBlue <= 0.5) ?
-//                                        (2 * baseBlue * blendBlue) :
-//                                        (1 - 2 * (1 - baseBlue) * (1 - blendBlue));
-//            result->pixels[i][j].green = (blendGreen <= 0.5) ?
-//                                         (2 * baseGreen * blendGreen) :
-//                                         (1 - 2 * (1 - baseGreen) * (1 - blendGreen));
-//            result->pixels[i][j].red = (blendRed <= 0.5) ?
-//                                       (2 * baseRed * blendRed) :
-//                                       (1 - 2 * (1 - baseRed) * (1 - blendRed));
-//
-//            // Clamping the results back to the 0-255 range.
-//            result->pixels[i][j].blue = clamp(result->pixels[i][j].blue * 255, 0.0f, 255.0f);
-//            result->pixels[i][j].green = clamp(result->pixels[i][j].green * 255, 0.0f, 255.0f);
-//            result->pixels[i][j].red = clamp(result->pixels[i][j].red * 255, 0.0f, 255.0f);
-//        }
-//    }
-//
-//    return result;
-//}
-
-
-
-// addition formula: P1 + P2
-Image* addition(Image& image1, Image& image2) {
-    auto* result = new Image;
-    *result = image1;
-
-    for (int i = 0; i < result->header.height; i++) {
-        for (int j = 0; j < result->header.width; j++) {
-            result->pixels[i][j].blue = min(255, image1.pixels[i][j].blue + image2.pixels[i][j].blue);
-            result->pixels[i][j].green = min(255, image1.pixels[i][j].green + image2.pixels[i][j].green);
-            result->pixels[i][j].red = min(255, image1.pixels[i][j].red + image2.pixels[i][j].red);
-        }
-    }
-
-    return result;
-}
 
 Image* overlay(Image& topLayer, Image& bottomLayer) {
     // Assuming both images have the same dimensions and format
@@ -318,39 +267,19 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     return result;
 }
 
-/*
- * // Function to flip the TGA image
-void flipTGA(TGAHeader* header, unsigned char* imageData) {
-  // Calculate the number of bytes per row
-  int bytesPerRow = header->width * header->pixeldepth / 8;
+// flip image over the vertical axis
+Image* flip( Image& src) {
+    Image* result = new Image;
+    result->header = src.header;
+    result->pixels = new Pixel*[result->header.height];
 
-  // Iterate over each row of the image
-  for (int i = 0; i < header->height / 2; i++) {
-    // Swap the rows
-    unsigned char* row1 = imageData + i * bytesPerRow;
-    unsigned char* row2 = imageData + (header->height - i - 1) * bytesPerRow;
-
-    for (int j = 0; j < bytesPerRow; j++) {
-      unsigned char temp = row1[j];
-      row1[j] = row2[j];
-      row2[j] = temp;
-    }
-  }
-}
- */
-
-// make flipImageVertically function based on the above code
-Image* flipImageVertically(Image* src) {
-    Image* result = deepCopy(src);
-    for (int i = 0; i < src->header.height / 2; i++) {
-        Pixel* row1 = result->pixels[i];
-        Pixel* row2 = result->pixels[result->header.height - i - 1];
-        for (int j = 0; j < src->header.width; j++) {
-            Pixel temp = row1[j];
-            row1[j] = row2[j];
-            row2[j] = temp;
+    for (int i = 0; i < result->header.height; ++i) {
+        result->pixels[i] = new Pixel[result->header.width];
+        for (int j = 0; j < result->header.width; ++j) {
+            result->pixels[i][j] = src.pixels[i][result->header.width - j - 1];
         }
     }
+
     return result;
 }
 

@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
         }
         else if(operation == "flip"){
             std::cout << "\n======================================\nStarting flip operation...\n======================================\n" << std::endl;
-            tempResult = flipImageVertically(trackingImage);
+            tempResult = flipImage(trackingImage);
             std::cout << "\n======================================\nFinished flip operation.\n======================================\n" << std::endl;
         }
         else if (operation == "onlyred") {
