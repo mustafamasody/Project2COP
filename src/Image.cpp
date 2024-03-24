@@ -268,18 +268,13 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
 }
 
 // flip image over the vertical axis
-Image* flip( Image& src) {
-    Image* result = new Image;
-    result->header = src.header;
-    result->pixels = new Pixel*[result->header.height];
-
-    for (int i = 0; i < result->header.height; ++i) {
-        result->pixels[i] = new Pixel[result->header.width];
-        for (int j = 0; j < result->header.width; ++j) {
-            result->pixels[i][j] = src.pixels[i][result->header.width - j - 1];
+Image* flipImage( Image* src) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height; ++i) {
+        for (int j = 0; j < src->header.width / 2; ++j) {
+            std::swap(result->pixels[i][j], result->pixels[i][src->header.width - j - 1]);
         }
     }
-
     return result;
 }
 
