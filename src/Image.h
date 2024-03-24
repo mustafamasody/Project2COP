@@ -48,3 +48,4 @@ Image* addition( Image& image1,  Image& image2);
 Image* overlay( Image& image1,  Image& image2);
 // void combine(Image*& trackingImage, const std::string& greenLayerPath, const std::string& blueLayerPath) {
 Image* combine(Image* trackingImage, std::string& greenLayerPath, std::string& blueLayerPath);
+Image* flipImageVertically(Image* src);

@@ -317,3 +317,28 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
 
     return result;
 }
+
+Image* flipImageVertically(Image* src) {
+    if (!src || !src->pixels) return nullptr; // Safety check
+
+    // Create a deep copy of the source image to work with
+    Image* flipped = deepCopy(src);
+
+    int height = flipped->header.height;
+    // Temporarily allocate memory for a single row to use during swapping
+    Pixel* tempRow = new Pixel[flipped->header.width];
+
+    for (int i = 0; i < height / 2; ++i) {
+        // Copy the top row to the temporary row
+        std::copy(flipped->pixels[i], flipped->pixels[i] + flipped->header.width, tempRow);
+        // Copy the bottom row to the top row
+        std::copy(flipped->pixels[height - 1 - i], flipped->pixels[height - 1 - i] + flipped->header.width, flipped->pixels[i]);
+        // Copy the temporary row (originally the top row) to the bottom row
+        std::copy(tempRow, tempRow + flipped->header.width, flipped->pixels[height - 1 - i]);
+    }
+
+    // Free the temporary row memory
+    delete[] tempRow;
+
+    return flipped;
+}

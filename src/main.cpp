@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, file does not exist." << std::endl;
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument." << std::endl;
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument." << std::endl;
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument." << std::endl;
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
              */
             std::cout << "\n======================================\nStarting combine operation...\n======================================\n" << std::endl;
             if (i + 2 >= argc) {
-                std::cerr << "Missing argument." << std::endl;
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -125,8 +125,13 @@ int main(int argc, char* argv[]) {
             tempResult = combine(trackingImage, greenLayerPath, blueLayerPath);
             std::cout << "\n======================================\nFinished combine operation.\n======================================\n" << std::endl;
         }
+        else if(operation == "flip"){
+            std::cout << "\n======================================\nStarting flip operation...\n======================================\n" << std::endl;
+            tempResult = flipImageVertically(trackingImage);
+            std::cout << "\n======================================\nFinished flip operation.\n======================================\n" << std::endl;
+        }
         else {
-            std::cerr << "Invalid operation: " << operation << std::endl;
+            std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;
             return 1;
         }
