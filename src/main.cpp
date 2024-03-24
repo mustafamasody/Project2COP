@@ -46,9 +46,15 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             std::string imagePath = argv[++i];
+            // ensure imagePath is a valid file
+            if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -64,9 +70,14 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             std::string imagePath = argv[++i];
+            if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                std::cerr << "Invalid argument, file does not exist.." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -82,9 +93,14 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             std::string imagePath = argv[++i];
+            if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -100,9 +116,14 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             std::string imagePath = argv[++i];
+            if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
+                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, invalid file name." << std::endl;
+                std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
                 return 1;
             }
