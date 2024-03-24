@@ -267,15 +267,18 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     return result;
 }
 
-// flip image over the vertical axis
+// flip image over the horizontal axis
 Image* flipImage( Image* src) {
+    // horizontal axis
     Image* result = deepCopy(src);
-    for (int i = 0; i < src->header.height; ++i) {
-        for (int j = 0; j < src->header.width / 2; ++j) {
-            std::swap(result->pixels[i][j], result->pixels[i][src->header.width - j - 1]);
+    for (int i = 0; i < src->header.height / 2; ++i) {
+        for (int j = 0; j < src->header.width; ++j) {
+            // Swap pixels across the horizontal axis
+            Pixel temp = result->pixels[i][j];
+            result->pixels[i][j] = result->pixels[src->header.height - i - 1][j];
+            result->pixels[src->header.height - i - 1][j] = temp;
         }
     }
-    return result;
 }
 
 Image* onlyRed( Image* src) {
