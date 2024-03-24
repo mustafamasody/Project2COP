@@ -319,26 +319,25 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
 }
 
 Image* flipImageVertically(Image* src) {
-    if (!src || !src->pixels) return nullptr; // Safety check
+    if (!src || !src->pixels) return nullptr;
 
-    // Create a deep copy of the source image to work with
-    Image* flipped = deepCopy(src);
+    // Create a new Image for the flipped version
+    Image* flipped = new Image;
+    flipped->header = src->header; // Copy header
+    flipped->pixels = new Pixel*[flipped->header.height];
 
-    int height = flipped->header.height;
-    // Temporarily allocate memory for a single row to use during swapping
-    Pixel* tempRow = new Pixel[flipped->header.width];
-
-    for (int i = 0; i < height / 2; ++i) {
-        // Copy the top row to the temporary row
-        std::copy(flipped->pixels[i], flipped->pixels[i] + flipped->header.width, tempRow);
-        // Copy the bottom row to the top row
-        std::copy(flipped->pixels[height - 1 - i], flipped->pixels[height - 1 - i] + flipped->header.width, flipped->pixels[i]);
-        // Copy the temporary row (originally the top row) to the bottom row
-        std::copy(tempRow, tempRow + flipped->header.width, flipped->pixels[height - 1 - i]);
+    for (int i = 0; i < flipped->header.height; ++i) {
+        flipped->pixels[i] = new Pixel[flipped->header.width];
     }
 
-    // Free the temporary row memory
-    delete[] tempRow;
+    // Perform the vertical flip by swapping pixels
+    int height = flipped->header.height;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < flipped->header.width; ++j) {
+            // Copy pixels from source to flipped, inverting the row index
+            flipped->pixels[height - 1 - i][j] = src->pixels[i][j];
+        }
+    }
 
     return flipped;
 }
