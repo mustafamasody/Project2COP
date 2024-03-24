@@ -131,9 +131,9 @@ Image* subtract( Image& image1,  Image& image2) {
     for (int i = 0; i < result->header.height; i++) {
         for (int j = 0; j < result->header.width; j++) {
             // Ensure subtraction results are clamped to 0 if negative or minimal positive values
-            result->pixels[i][j].blue = std::max(0, image2.pixels[i][j].blue - image1.pixels[i][j].blue);
-            result->pixels[i][j].green = std::max(0, image2.pixels[i][j].green - image1.pixels[i][j].green);
-            result->pixels[i][j].red = std::max(0, image2.pixels[i][j].red - image1.pixels[i][j].red);
+            result->pixels[i][j].blue = std::max(0, image1.pixels[i][j].blue - image2.pixels[i][j].blue);
+            result->pixels[i][j].green = std::max(0, image1.pixels[i][j].green - image2.pixels[i][j].green);
+            result->pixels[i][j].red = std::max(0, image1.pixels[i][j].red - image2.pixels[i][j].red);
         }
     }
 
