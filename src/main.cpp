@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
             }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, file does not exist.." << std::endl;
+                std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -166,13 +166,18 @@ int main(int argc, char* argv[]) {
                 delete trackingImage;
                 return 1;
             }
-            // make sure the argument is a valid integer
-            if (std::stoi(argv[i + 1]) == 0) {
-                std::cerr << "Invalid argument, expected number" << std::endl;
+            int value;
+            try {
+                value = std::stoi(argv[i + 1]);
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            } catch (const std::out_of_range& e) {
+                std::cerr << "Number out of range" << std::endl;
                 delete trackingImage;
                 return 1;
             }
-            int value = std::stoi(argv[++i]);
             tempResult = addRed(trackingImage, value);
         }
         else if (operation == "addgreen") {
@@ -181,12 +186,18 @@ int main(int argc, char* argv[]) {
                 delete trackingImage;
                 return 1;
             }
-            if (std::stoi(argv[i + 1]) == 0) {
-                std::cerr << "Invalid argument, expected number" << std::endl;
+            int value;
+            try {
+                value = std::stoi(argv[i + 1]);
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            } catch (const std::out_of_range& e) {
+                std::cerr << "Number out of range" << std::endl;
                 delete trackingImage;
                 return 1;
             }
-            int value = std::stoi(argv[++i]);
             tempResult = addGreen(trackingImage, value);
         }
         else if (operation == "addblue") {
@@ -195,12 +206,18 @@ int main(int argc, char* argv[]) {
                 delete trackingImage;
                 return 1;
             }
-            if (std::stoi(argv[i + 1]) == 0) {
-                std::cerr << "Invalid argument, expected number" << std::endl;
+            int value;
+            try {
+                value = std::stoi(argv[i + 1]);
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            } catch (const std::out_of_range& e) {
+                std::cerr << "Number out of range" << std::endl;
                 delete trackingImage;
                 return 1;
             }
-            int value = std::stoi(argv[++i]);
             tempResult = addBlue(trackingImage, value);
         }
         else {
