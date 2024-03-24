@@ -318,28 +318,40 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     return result;
 }
 
-Image* flipImageVertically(Image* src) {
-    if (!src || !src->pixels) return nullptr;
+/*
+ * // Function to flip the TGA image
+void flipTGA(TGAHeader* header, unsigned char* imageData) {
+  // Calculate the number of bytes per row
+  int bytesPerRow = header->width * header->pixeldepth / 8;
 
-    // Create a new Image for the flipped version
-    Image* flipped = new Image;
-    flipped->header = src->header; // Copy header
-    flipped->pixels = new Pixel*[flipped->header.height];
+  // Iterate over each row of the image
+  for (int i = 0; i < header->height / 2; i++) {
+    // Swap the rows
+    unsigned char* row1 = imageData + i * bytesPerRow;
+    unsigned char* row2 = imageData + (header->height - i - 1) * bytesPerRow;
 
-    for (int i = 0; i < flipped->header.height; ++i) {
-        flipped->pixels[i] = new Pixel[flipped->header.width];
+    for (int j = 0; j < bytesPerRow; j++) {
+      unsigned char temp = row1[j];
+      row1[j] = row2[j];
+      row2[j] = temp;
     }
+  }
+}
+ */
 
-    // Perform the vertical flip by swapping pixels
-    int height = flipped->header.height;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < flipped->header.width; ++j) {
-            // Copy pixels from source to flipped, inverting the row index
-            flipped->pixels[height - 1 - i][j] = src->pixels[i][j];
+// make flipImageVertically function based on the above code
+Image* flipImageVertically(Image* src) {
+    Image* result = deepCopy(src);
+    for (int i = 0; i < src->header.height / 2; i++) {
+        Pixel* row1 = result->pixels[i];
+        Pixel* row2 = result->pixels[result->header.height - i - 1];
+        for (int j = 0; j < src->header.width; j++) {
+            Pixel temp = row1[j];
+            row1[j] = row2[j];
+            row2[j] = temp;
         }
     }
-
-    return flipped;
+    return result;
 }
 
 Image* onlyRed( Image* src) {
