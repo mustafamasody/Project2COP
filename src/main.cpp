@@ -7,11 +7,11 @@
 int main(int argc, char* argv[]) {
     // if there's no argument, print help
     if (argc < 2) {
-        std::cout << "Project 2: Image Processing, Spring 2024\n\nUsage:\n      ./project2.out [output] [firstImage] [method] [...]" << std::endl;
+        std::cout << "Project 2: Image Processing, Spring 2024\n\nUsage:\n\t./project2.out [output] [firstImage] [method] [...]" << std::endl;
         return 0;
     }
     if (std::string(argv[1]) == "--help") {
-        std::cout << "Project 2: Image Processing, Spring 2024\n\nUsage:\n      ./project2.out [output] [firstImage] [method] [...]" << std::endl;
+        std::cout << "Project 2: Image Processing, Spring 2024\n\nUsage:\n\t./project2.out [output] [firstImage] [method] [...]" << std::endl;
         return 0;
     }
     if(argc<3){
