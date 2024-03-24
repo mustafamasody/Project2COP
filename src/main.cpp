@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         if (operation == "multiply") {
             std::cout << "\n\n======================================\nStarting multiply operation...\n======================================\n\n" << std::endl;
             if (i + 1 >= argc) {
-                std::cerr << "Missing argument: multiply requires an image file." << std::endl;
+                std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -59,14 +59,14 @@ int main(int argc, char* argv[]) {
         else if(operation == "subtract"){
             std::cout << "\n======================================\nStarting subtract operation...\n======================================\n" << std::endl;
             if (i + 1 >= argc) {
-                std::cerr << "Missing argument: subtract requires a second image." << std::endl;
+                std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, file does not exist." << std::endl;
+                std::cerr << "Invalid argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -77,14 +77,14 @@ int main(int argc, char* argv[]) {
         else if(operation=="overlay"){
             std::cout << "\n======================================\nStarting overlay operation...\n======================================\n" << std::endl;
             if (i + 1 >= argc) {
-                std::cerr << "Missing argument: overlay requires a second image file." << std::endl;
+                std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, file does not exist." << std::endl;
+                std::cerr << "Invalid argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -95,14 +95,14 @@ int main(int argc, char* argv[]) {
         else if(operation == "screen"){
             std::cout << "\n======================================\nStarting screen operation...\n======================================\n" << std::endl;
             if (i + 1 >= argc) {
-                std::cerr << "Missing argument: screen requires a second image file." << std::endl;
+                std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
             std::string imagePath = argv[++i];
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
-                std::cerr << "Invalid argument, file does not exist." << std::endl;
+                std::cerr << "Invalid argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
              */
             std::cout << "\n======================================\nStarting combine operation...\n======================================\n" << std::endl;
             if (i + 2 >= argc) {
-                std::cerr << "Missing argument: combine requires two additional image files." << std::endl;
+                std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
                 return 1;
             }
