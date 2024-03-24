@@ -1,0 +1,31 @@
+Index: cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Mar 24 05:43 EDT\n----------------------------------------------------------\nEnd testing: Mar 24 05:43 EDT\n
+===================================================================
+diff --git a/cmake-build-debug/Testing/Temporary/LastTest.log b/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/cmake-build-debug/Testing/Temporary/LastTest.log	
++++ b/cmake-build-debug/Testing/Temporary/LastTest.log	
+@@ -1,3 +1,3 @@
+-Start testing: Mar 24 05:43 EDT
++Start testing: Mar 24 06:38 EDT
+ ----------------------------------------------------------
+-End testing: Mar 24 05:43 EDT
++End testing: Mar 24 06:38 EDT
+Index: cmake-build-debug/.ninja_log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ninja log v5\n4\t354\t1711271190864679090\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n0\t51\t1711271254685635202\tbuild.ninja\tc6aecdb608ea3ac6\n15\t406\t1711271255097949112\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n406\t448\t1711271255140729313\tProject2\t398a880297418af5\n4\t589\t1711272049494000319\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n589\t628\t1711272049535529651\tProject2\t398a880297418af5\n4\t347\t1711272150356995227\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n347\t393\t1711272150404513442\tProject2\t398a880297418af5\n4\t312\t1711272236830274633\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n312\t349\t1711272236868455433\tProject2\t398a880297418af5\n4\t351\t1711272313704721001\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n351\t390\t1711272313744823136\tProject2\t398a880297418af5\n4\t333\t1711272342838829441\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n333\t368\t1711272342874611188\tProject2\t398a880297418af5\n4\t379\t1711272547770082184\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n4\t387\t1711272547777850397\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n387\t425\t1711272547817067262\tProject2\t398a880297418af5\n4\t575\t1711272726602699396\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n576\t614\t1711272726643626882\tProject2\t398a880297418af5\n4\t419\t1711272945889394490\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n419\t469\t1711272945941279435\tProject2\t398a880297418af5\n4\t312\t1711273209730429296\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n4\t320\t1711273209738341542\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n320\t360\t1711273209779625649\tProject2\t398a880297418af5\n4\t592\t1711273383761567381\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n4\t594\t1711273383766017870\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n594\t636\t1711273383808841601\tProject2\t398a880297418af5\n3\t413\t1711273702825894210\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n4\t418\t1711273702831030634\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n4\t305\t1711273781068367690\tCMakeFiles/Project2.dir/src/main.cpp.o\t218ef2ede03d5eef\n4\t311\t1711273781075201408\tCMakeFiles/Project2.dir/src/Image.cpp.o\tf3a9d995a70e6ae4\n
+===================================================================
+diff --git a/cmake-build-debug/.ninja_log b/cmake-build-debug/.ninja_log
+--- a/cmake-build-debug/.ninja_log	
++++ b/cmake-build-debug/.ninja_log	
+@@ -30,3 +30,8 @@
+ 4	418	1711273702831030634	CMakeFiles/Project2.dir/src/Image.cpp.o	f3a9d995a70e6ae4
+ 4	305	1711273781068367690	CMakeFiles/Project2.dir/src/main.cpp.o	218ef2ede03d5eef
+ 4	311	1711273781075201408	CMakeFiles/Project2.dir/src/Image.cpp.o	f3a9d995a70e6ae4
++4	596	1711276428009935665	CMakeFiles/Project2.dir/src/main.cpp.o	218ef2ede03d5eef
++4	374	1711276564962815736	CMakeFiles/Project2.dir/src/main.cpp.o	218ef2ede03d5eef
++5	553	1711276711274346933	CMakeFiles/Project2.dir/src/main.cpp.o	218ef2ede03d5eef
++5	558	1711276711280855786	CMakeFiles/Project2.dir/src/Image.cpp.o	f3a9d995a70e6ae4
++558	710	1711276711433281835	Project2	398a880297418af5

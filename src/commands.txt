@@ -1,0 +1,5 @@
+BUILD: g++ --std=c++11 src/main.cpp src/Image.cpp -o project2
+
+TEST: ./project2 output/test.tga input/car.tga multiply input/layer1.tga subtract input/circles.tga
+
+./project2 output/test.tga input/car.tga multiply input/layer1.tga subtract input/circles.tga screen input/layer2.tga

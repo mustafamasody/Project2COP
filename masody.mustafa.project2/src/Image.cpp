@@ -173,7 +173,7 @@ Image* screen(Image& bottomLayer, Image& topLayer) {
     return result;
 }
 
-Image* combine( Image* trackingImage, std::string& greenLayerPath, std::string& blueLayerPath) {
+Image* combine(const Image* trackingImage, const std::string& greenLayerPath, const std::string& blueLayerPath) {
     // First, make a deep copy of the trackingImage to work on
     Image* combinedImage = deepCopy(trackingImage);
 
