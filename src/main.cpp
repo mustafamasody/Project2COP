@@ -220,6 +220,57 @@ int main(int argc, char* argv[]) {
             }
             tempResult = addBlue(trackingImage, value);
         }
+        else if (operation == "scalered") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+
+            int scale;
+            try {
+                scale = std::stoi(argv[++i]);
+            } catch (const std::exception& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            tempResult = scaleRed(trackingImage, scale);
+        }
+        else if (operation == "scalegreen") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+
+            int scale;
+            try {
+                scale = std::stoi(argv[++i]);
+            } catch (const std::exception& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            tempResult = scaleGreen(trackingImage, scale);
+        }
+        else if (operation == "scaleblue") {
+            if (i + 1 >= argc) {
+                std::cerr << "Missing argument." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+
+            int scale;
+            try {
+                scale = std::stoi(argv[++i]);
+            } catch (const std::exception& e) {
+                std::cerr << "Invalid argument, expected number." << std::endl;
+                delete trackingImage;
+                return 1;
+            }
+            tempResult = scaleBlue(trackingImage, scale);
+        }
         else {
             std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;

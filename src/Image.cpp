@@ -408,3 +408,72 @@ Image* addBlue( Image* src, int value) {
     }
     return result;
 }
+
+Image* scaleRed( Image* src, int scale) {
+    if (!src || !src->pixels) return nullptr;
+
+    // Allocate new Image
+    Image* result = new Image;
+    result->header = src->header; // Copy header
+    result->pixels = new Pixel*[result->header.height];
+
+    // Allocate and copy pixels with scaling applied to red channel
+    for (int i = 0; i < src->header.height; ++i) {
+        result->pixels[i] = new Pixel[src->header.width];
+        for (int j = 0; j < src->header.width; ++j) {
+            // Scale red channel
+            int scaledRed = std::min(255, src->pixels[i][j].red * scale);
+            result->pixels[i][j].red = static_cast<unsigned char>(std::max(0, scaledRed));
+            // Copy green and blue channels as is
+            result->pixels[i][j].green = src->pixels[i][j].green;
+            result->pixels[i][j].blue = src->pixels[i][j].blue;
+        }
+    }
+    return result;
+}
+
+Image* scaleGreen( Image* src, int scale) {
+    if (!src || !src->pixels) return nullptr;
+
+    // Allocate new Image
+    Image* result = new Image;
+    result->header = src->header; // Copy header
+    result->pixels = new Pixel*[result->header.height];
+
+    // Allocate and copy pixels with scaling applied to green channel
+    for (int i = 0; i < src->header.height; ++i) {
+        result->pixels[i] = new Pixel[src->header.width];
+        for (int j = 0; j < src->header.width; ++j) {
+            // Scale green channel
+            int scaledGreen = std::min(255, src->pixels[i][j].green * scale);
+            result->pixels[i][j].green = static_cast<unsigned char>(std::max(0, scaledGreen));
+            // Copy red and blue channels as is
+            result->pixels[i][j].red = src->pixels[i][j].red;
+            result->pixels[i][j].blue = src->pixels[i][j].blue;
+        }
+    }
+    return result;
+}
+
+Image* scaleBlue( Image* src, int scale) {
+    if (!src || !src->pixels) return nullptr;
+
+    // Allocate new Image
+    Image* result = new Image;
+    result->header = src->header; // Copy header
+    result->pixels = new Pixel*[result->header.height];
+
+    // Allocate and copy pixels with scaling applied to blue channel
+    for (int i = 0; i < src->header.height; ++i) {
+        result->pixels[i] = new Pixel[src->header.width];
+        for (int j = 0; j < src->header.width; ++j) {
+            // Scale blue channel
+            int scaledBlue = std::min(255, src->pixels[i][j].blue * scale);
+            result->pixels[i][j].blue = static_cast<unsigned char>(std::max(0, scaledBlue));
+            // Copy red and green channels as is
+            result->pixels[i][j].red = src->pixels[i][j].red;
+            result->pixels[i][j].green = src->pixels[i][j].green;
+        }
+    }
+    return result;
+}

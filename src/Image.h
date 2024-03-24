@@ -56,3 +56,7 @@ Image* onlyBlue( Image* src);
 Image* addRed( Image* src, int value);
 Image* addGreen( Image* src, int value);
 Image* addBlue( Image* src, int value);
+
+Image* scaleRed( Image* src, int scale);
+Image* scaleGreen( Image* src, int scale);
+Image* scaleBlue( Image* src, int scale);
