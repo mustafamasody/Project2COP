@@ -18,19 +18,19 @@ int main(int argc, char* argv[]) {
     std::string outputFilePath = argv[1];
     if (outputFilePath.size() < 4 || outputFilePath.substr(outputFilePath.size() - 4) != ".tga") {
         std::cerr << "Invalid file name." << std::endl;
-        return 0;
+        return 1;
     }
 
     std::string inputFilePath = argv[2];
     if (inputFilePath.size() < 4 || inputFilePath.substr(inputFilePath.size() - 4) != ".tga") {
         std::cerr << "Invalid file name." << std::endl;
-        return 0;
+        return 1;
     }
 
     Image* trackingImage = readFile(inputFilePath);
     if (!trackingImage) {
         std::cerr << "File does not exist." << std::endl;
-        return 0;
+        return 1;
     }
 
     // Process each operation
@@ -43,20 +43,20 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             std::string imagePath = argv[++i];
             // ensure imagePath is a valid file
             if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
                 std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = multiply(*trackingImage, *otherImage);
             delete otherImage;
@@ -67,19 +67,19 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             std::string imagePath = argv[++i];
             if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
                 std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = subtract(*trackingImage, *otherImage);
             delete otherImage;
@@ -90,19 +90,19 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             std::string imagePath = argv[++i];
             if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
                 std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = overlay(*trackingImage, *otherImage);
             delete otherImage;
@@ -113,19 +113,19 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             std::string imagePath = argv[++i];
             if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             Image* otherImage = readFile(imagePath);
             if (!otherImage) {
                 std::cerr << "Invalid argument, file does not exist." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = screen(*trackingImage, *otherImage);
             delete otherImage;
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
             if (i + 2 >= argc) {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             std::string greenLayerPath = argv[++i];
             std::string blueLayerPath = argv[++i];
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             int value;
             try {
@@ -172,15 +172,16 @@ int main(int argc, char* argv[]) {
             } catch (const std::invalid_argument& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = addRed(trackingImage, value);
+            ++i;
         }
         else if (operation == "addgreen") {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             int value;
             try {
@@ -188,15 +189,16 @@ int main(int argc, char* argv[]) {
             } catch (const std::invalid_argument& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = addGreen(trackingImage, value);
+            ++i;
         }
         else if (operation == "addblue") {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             int value;
             try {
@@ -204,15 +206,16 @@ int main(int argc, char* argv[]) {
             } catch (const std::invalid_argument& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = addBlue(trackingImage, value);
+            ++i;
         }
         else if (operation == "scalered") {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
 
             int scale;
@@ -221,7 +224,7 @@ int main(int argc, char* argv[]) {
             } catch (const std::exception& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = scaleRed(trackingImage, scale);
         }
@@ -229,7 +232,7 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
 
             int scale;
@@ -238,7 +241,7 @@ int main(int argc, char* argv[]) {
             } catch (const std::exception& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = scaleGreen(trackingImage, scale);
         }
@@ -246,7 +249,7 @@ int main(int argc, char* argv[]) {
             if (i + 1 >= argc) {
                 std::cerr << "Missing argument." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
 
             int scale;
@@ -255,14 +258,14 @@ int main(int argc, char* argv[]) {
             } catch (const std::exception& e) {
                 std::cerr << "Invalid argument, expected number." << std::endl;
                 delete trackingImage;
-                return 0;
+                return 1;
             }
             tempResult = scaleBlue(trackingImage, scale);
         }
         else {
             std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;
-            return 0;
+            return 1;
         }
         // Handle other operations...
 
@@ -272,7 +275,7 @@ int main(int argc, char* argv[]) {
         } else {
             std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;
-            return 0;
+            return 1;
         }
     }
 
