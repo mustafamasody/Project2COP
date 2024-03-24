@@ -28,7 +28,7 @@ struct Image {
     Header header;
     Pixel **pixels;
 
-    ~Image() { // Destructor to free allocated memory
+    ~Image() {
         if (pixels) {
             for (int i = 0; i < header.height; ++i) {
                 delete[] pixels[i];

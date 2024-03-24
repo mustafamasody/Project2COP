@@ -5,7 +5,6 @@
 #include <algorithm> // For std::min and std::max
 
 int main(int argc, char* argv[]) {
-    // if there's no argument, print help
     if (argc < 2) {
         std::cout << "Project 2: Image Processing, Spring 2024\n\nUsage:\n\t./project2.out [output] [firstImage] [method] [...]" << std::endl;
         return 0;
@@ -36,7 +35,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Process each operation
     for (int i = 3; i < argc; ++i) {
         std::string operation = argv[i];
         Image* tempResult = nullptr;
@@ -49,7 +47,6 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
             std::string imagePath = argv[++i];
-            // ensure imagePath is a valid file
             if (imagePath.size() < 4 || imagePath.substr(imagePath.size() - 4) != ".tga") {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
                 delete trackingImage;
@@ -135,9 +132,6 @@ int main(int argc, char* argv[]) {
             std::cout << "\n======================================\nFinished screen operation.\n======================================\n" << std::endl;
         }
         else if(operation == "combine"){
-            /*
-             * This method is similar to what you did in task 9 of Part 2, where three individual files each provide one channel of the resulting image. This method takes two additional arguments, the source for the green layer (the first additional argument), and the source for the blue layer (the second additional argument). The source for the red layer is the tracking image.
-             */
             std::cout << "\n======================================\nStarting combine operation...\n======================================\n" << std::endl;
             if (i + 2 >= argc) {
                 std::cerr << "Invalid argument, invalid file name." << std::endl;
@@ -270,11 +264,10 @@ int main(int argc, char* argv[]) {
             delete trackingImage;
             return 1;
         }
-        // Handle other operations...
 
         if (tempResult) {
-            delete trackingImage; // Free the previous tracking image
-            trackingImage = tempResult; // Update the tracking image
+            delete trackingImage;
+            trackingImage = tempResult;
         } else {
             std::cerr << "Invalid method name." << std::endl;
             delete trackingImage;
@@ -282,9 +275,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Finally, write the tracking image to the output file
     writeData(*trackingImage, outputFilePath);
     delete trackingImage; // Clean up
 
-    return 0; // Indicate successful completion
+    return 0;
 }

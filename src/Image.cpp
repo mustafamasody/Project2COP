@@ -13,12 +13,12 @@ using namespace std;
 
 Image* deepCopy( Image* src) {
     Image* copy = new Image;
-    copy->header = src->header; // Copy header
+    copy->header = src->header;
     copy->pixels = new Pixel*[copy->header.height];
     for (int i = 0; i < copy->header.height; i++) {
         copy->pixels[i] = new Pixel[copy->header.width];
         for (int j = 0; j < copy->header.width; j++) {
-            copy->pixels[i][j] = src->pixels[i][j]; // Copy pixel data
+            copy->pixels[i][j] = src->pixels[i][j];
         }
     }
     return copy;
@@ -37,7 +37,6 @@ Image* readFile( std::string filename) {
 }
 
 void readData(std::ifstream &file, Image* img) {
-    // Directly modify *img...
     file.read(&img->header.idLength, sizeof(img->header.idLength));
     file.read(&img->header.colorMapType, sizeof(img->header.colorMapType));
     file.read(&img->header.dataTypeCode, sizeof(img->header.dataTypeCode));
@@ -102,7 +101,6 @@ Image* multiply(Image& image1, Image& image2) {
     for (int i = 0; i < result->header.height; i++) {
         result->pixels[i] = new Pixel[result->header.width];
         for (int j = 0; j < result->header.width; j++) {
-            // Normalizing color values to [0, 1], performing multiplication, and rescaling back to [0, 255]
             float blue1 = image1.pixels[i][j].blue / 255.0f;
             float green1 = image1.pixels[i][j].green / 255.0f;
             float red1 = image1.pixels[i][j].red / 255.0f;
@@ -121,7 +119,7 @@ Image* multiply(Image& image1, Image& image2) {
 
 Image* subtract( Image& image1,  Image& image2) {
     auto* result = new Image();
-    result->header = image1.header; // Assuming both images have the same dimensions and format
+    result->header = image1.header;
 
     result->pixels = new Pixel*[result->header.height];
     for (int i = 0; i < result->header.height; i++) {
@@ -143,9 +141,8 @@ Image* subtract( Image& image1,  Image& image2) {
 
 
 Image* screen(Image& bottomLayer, Image& topLayer) {
-    // Ensure the dimensions of both images match
     auto* result = new Image();
-    result->header = bottomLayer.header; // Assuming both images have the same header
+    result->header = bottomLayer.header;
     result->pixels = new Pixel*[result->header.height];
 
     for (int i = 0; i < result->header.height; ++i) {
@@ -160,12 +157,10 @@ Image* screen(Image& bottomLayer, Image& topLayer) {
             float topGreen = topLayer.pixels[i][j].green / 255.0f;
             float topRed = topLayer.pixels[i][j].red / 255.0f;
 
-            // Apply the screen blending mode formula for each color channel
             result->pixels[i][j].blue = (1 - (1 - topBlue) * (1 - bottomBlue)) * 255;
             result->pixels[i][j].green = (1 - (1 - topGreen) * (1 - bottomGreen)) * 255;
             result->pixels[i][j].red = (1 - (1 - topRed) * (1 - bottomRed)) * 255;
 
-            // Clamp the results to the range [0, 255]
             result->pixels[i][j].blue = std::min(std::max(int(result->pixels[i][j].blue + 0.5), 0), 255);
             result->pixels[i][j].green = std::min(std::max(int(result->pixels[i][j].green + 0.5), 0), 255);
             result->pixels[i][j].red = std::min(std::max(int(result->pixels[i][j].red + 0.5), 0), 255);
@@ -176,41 +171,33 @@ Image* screen(Image& bottomLayer, Image& topLayer) {
 }
 
 Image* combine( Image* trackingImage, std::string& greenLayerPath, std::string& blueLayerPath) {
-    // First, make a deep copy of the trackingImage to work on
     Image* combinedImage = deepCopy(trackingImage);
 
-    // Load the green layer
     Image* greenLayer = readFile(greenLayerPath);
     if (!greenLayer) {
         std::cerr << "Invalid argument, file does not exist." << std::endl;
-        delete combinedImage; // Clean up the combined image before returning
+        delete combinedImage;
         return nullptr;
     }
 
-    // Load the blue layer
     Image* blueLayer = readFile(blueLayerPath);
     if (!blueLayer) {
         std::cerr << "Invalid argument, file does not exist." << std::endl;
-        delete greenLayer; // Clean up the green layer before returning
-        delete combinedImage; // Clean up the combined image before returning
+        delete greenLayer;
+        delete combinedImage;
         return nullptr;
     }
 
-    // Assuming all images have the same dimensions and format
     for (int i = 0; i < combinedImage->header.height; i++) {
         for (int j = 0; j < combinedImage->header.width; j++) {
-            // The red channel stays as is from the trackingImage copy
-            // Update the green and blue channels from the loaded layers
             combinedImage->pixels[i][j].green = greenLayer->pixels[i][j].green;
             combinedImage->pixels[i][j].blue = blueLayer->pixels[i][j].blue;
         }
     }
 
-    // Clean up the dynamically allocated green and blue layer images
     delete greenLayer;
     delete blueLayer;
 
-    // Return the new image with combined channels
     return combinedImage;
 }
 
@@ -227,7 +214,6 @@ T clamp(T value, float low, float high) {
 }
 
 Image* overlay(Image& topLayer, Image& bottomLayer) {
-    // Assuming both images have the same dimensions and format
     auto* result = new Image();
     result->header = topLayer.header;
     result->pixels = new Pixel*[result->header.height];
@@ -235,7 +221,6 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     for (int i = 0; i < result->header.height; ++i) {
         result->pixels[i] = new Pixel[result->header.width];
         for (int j = 0; j < result->header.width; ++j) {
-            // Normalize pixel values to the range [0, 1] for the calculation
             float topBlue = topLayer.pixels[i][j].blue / 255.0f;
             float topGreen = topLayer.pixels[i][j].green / 255.0f;
             float topRed = topLayer.pixels[i][j].red / 255.0f;
@@ -244,7 +229,6 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
             float bottomGreen = bottomLayer.pixels[i][j].green / 255.0f;
             float bottomRed = bottomLayer.pixels[i][j].red / 255.0f;
 
-            // Apply overlay blending mode for each channel
             result->pixels[i][j].blue = bottomBlue <= 0.5 ?
                                         2 * topBlue * bottomBlue * 255 :
                                         (1 - 2 * (1 - topBlue) * (1 - bottomBlue)) * 255;
@@ -257,7 +241,6 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
                                        2 * topRed * bottomRed * 255 :
                                        (1 - 2 * (1 - topRed) * (1 - bottomRed)) * 255;
 
-            // Clamp the results to [0, 255]
             result->pixels[i][j].blue = std::min(std::max(int(result->pixels[i][j].blue + 0.5f), 0), 255);
             result->pixels[i][j].green = std::min(std::max(int(result->pixels[i][j].green + 0.5f), 0), 255);
             result->pixels[i][j].red = std::min(std::max(int(result->pixels[i][j].red + 0.5f), 0), 255);
@@ -267,7 +250,6 @@ Image* overlay(Image& topLayer, Image& bottomLayer) {
     return result;
 }
 
-// flipImage, rotate 180 degrees
 Image* flipImage(Image* src) {
     Image* result = deepCopy(src);
     for (int i = 0; i < src->header.height; ++i) {
@@ -347,19 +329,15 @@ Image* addBlue( Image* src, int value) {
 Image* scaleRed( Image* src, int scale) {
     if (!src || !src->pixels) return nullptr;
 
-    // Allocate new Image
     Image* result = new Image;
     result->header = src->header; // Copy header
     result->pixels = new Pixel*[result->header.height];
 
-    // Allocate and copy pixels with scaling applied to red channel
     for (int i = 0; i < src->header.height; ++i) {
         result->pixels[i] = new Pixel[src->header.width];
         for (int j = 0; j < src->header.width; ++j) {
-            // Scale red channel
             int scaledRed = std::min(255, src->pixels[i][j].red * scale);
             result->pixels[i][j].red = static_cast<unsigned char>(std::max(0, scaledRed));
-            // Copy green and blue channels as is
             result->pixels[i][j].green = src->pixels[i][j].green;
             result->pixels[i][j].blue = src->pixels[i][j].blue;
         }
@@ -370,19 +348,15 @@ Image* scaleRed( Image* src, int scale) {
 Image* scaleGreen( Image* src, int scale) {
     if (!src || !src->pixels) return nullptr;
 
-    // Allocate new Image
     Image* result = new Image;
     result->header = src->header; // Copy header
     result->pixels = new Pixel*[result->header.height];
 
-    // Allocate and copy pixels with scaling applied to green channel
     for (int i = 0; i < src->header.height; ++i) {
         result->pixels[i] = new Pixel[src->header.width];
         for (int j = 0; j < src->header.width; ++j) {
-            // Scale green channel
             int scaledGreen = std::min(255, src->pixels[i][j].green * scale);
             result->pixels[i][j].green = static_cast<unsigned char>(std::max(0, scaledGreen));
-            // Copy red and blue channels as is
             result->pixels[i][j].red = src->pixels[i][j].red;
             result->pixels[i][j].blue = src->pixels[i][j].blue;
         }
@@ -393,19 +367,15 @@ Image* scaleGreen( Image* src, int scale) {
 Image* scaleBlue( Image* src, int scale) {
     if (!src || !src->pixels) return nullptr;
 
-    // Allocate new Image
     Image* result = new Image;
     result->header = src->header; // Copy header
     result->pixels = new Pixel*[result->header.height];
 
-    // Allocate and copy pixels with scaling applied to blue channel
     for (int i = 0; i < src->header.height; ++i) {
         result->pixels[i] = new Pixel[src->header.width];
         for (int j = 0; j < src->header.width; ++j) {
-            // Scale blue channel
             int scaledBlue = std::min(255, src->pixels[i][j].blue * scale);
             result->pixels[i][j].blue = static_cast<unsigned char>(std::max(0, scaledBlue));
-            // Copy red and green channels as is
             result->pixels[i][j].red = src->pixels[i][j].red;
             result->pixels[i][j].green = src->pixels[i][j].green;
         }
